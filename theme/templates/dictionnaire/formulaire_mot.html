@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 flex flex-col items-center">
+    {# Espace pour le logo #}
+    <img src="chemin/vers/votre/logo.png" alt="Logo du projet" class="mb-6 w-48">
+
+    <h1 class="text-3xl font-bold text-green-800 mb-6">{% if form.instance.id %}Modifier{% else %}Ajouter{% endif %} un mot</h1>
+
+    <form method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-4 w-full max-w-xl">
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label for="{{ form.mot.id_for_label }}" class="block text-sm font-medium text-gray-700">Mot</label>
+            <input type="text" id="{{ form.mot.id_for_label }}" name="{{ form.mot.name }}" value="{{ form.mot.value|default:'' }}" class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.langue.id_for_label }}" class="block text-sm font-medium text-gray-700">Langue</label>
+            <select id="{{ form.langue.id_for_label }}" name="{{ form.langue.name }}" class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                {% for choice in form.langue.field.choices %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.langue.value %}selected{% endif %}>{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.prononciation_audio.id_for_label }}" class="block text-sm font-medium text-gray-700">Prononciation audio</label>
+            <input type="file" id="{{ form.prononciation_audio.id_for_label }}" name="{{ form.prononciation_audio.name }}" class="mt-1 p-2">
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.image_illustrative.id_for_label }}" class="block text-sm font-medium text-gray-700">Image illustrative</label>
+            <input type="file" id="{{ form.image_illustrative.id_for_label }}" name="{{ form.image_illustrative.name }}" class="mt-1 p-2">
+        </div>
+
+        {% if form.instance.image_illustrative %}
+        <div class="mb-4">
+            <p class="text-sm text-gray-600">Image actuelle :</p>
+            <img src="{{ form.instance.image_illustrative.url }}" alt="{{ form.instance.mot }}" class="mt-2 max-w-xs">
+        </div>
+        {% endif %}
+
+        <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

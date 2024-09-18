@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 flex flex-col items-center">
+
+    {# Espace pour le logo #}
+    <img src="chemin/vers/votre/logo.png" alt="Logo du projet" class="mb-6 w-48">
+
+    <h1 class="text-2xl font-bold text-green-800 mb-4">Ajouter une traduction</h1>
+
+    <form method="post" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-4 w-full max-w-xl">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                {% if field.field.widget.input_type == 'select' %}
+                    <select id="{{ field.id_for_label }}" name="{{ field.name }}" class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                        {% for choice in field.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" value="{{ field.value|default:'' }}" class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}
