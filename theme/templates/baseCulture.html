@@ -1,0 +1,81 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <title>{% block title %}Cultures Africaines{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% tailwind_css %}
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-green-200 to-blue-200 min-h-screen flex flex-col">
+    {% block header %}
+    <header class="bg-green-600 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold flex items-center">
+                <!-- Emplacement pour le logo -->
+                <img src="{% static 'images/LogoLM.png' %}" alt="Logo LM Africa" class="h-10 w-auto mr-2">
+                <!-- Fin de l'emplacement pour le logo -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>LM Africa</span>
+            </a>
+            <nav class="flex items-center space-x-4">
+                {% block navigation %}
+                {% if user.is_authenticated %}
+                    {% if user.is_expert %}
+                        {% if langue_id %}
+                        <a href="{% url 'element_culturel_create' langue_id %}" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded inline-flex items-center transition duration-150 ease-in-out">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Ajouter une culture</span>
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                    <a href="{% url 'logout' %}" class="text-white hover:text-green-200 inline-flex items-center transition duration-150 ease-in-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Se déconnecter</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded inline-flex items-center transition duration-150 ease-in-out">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Se connecter</span>
+                    </a>
+                {% endif %}
+                {% endblock %}
+            </nav>
+        </div>
+    </header>
+    {% endblock %}
+
+    <main class="container mx-auto mt-8 p-4 flex-grow">
+        {% block content %}
+        <!-- Le contenu spécifique à chaque page sera inséré ici -->
+        {% endblock %}
+    </main>
+
+    {% block footer %}
+    <footer class="bg-green-600 text-white p-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; {% now "Y" %} LM Africa - Toutes les cultures, toutes les langues</p>
+        </div>
+    </footer>
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

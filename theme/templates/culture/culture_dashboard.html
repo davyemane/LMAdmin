@@ -1,0 +1,56 @@
+{% extends "baseCulture.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+        <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">Dashboard Culturel</h1>
+        <p class="mt-5 max-w-xl mx-auto text-xl text-gray-500">Explorez la richesse et la diversité des cultures à travers nos collections linguistiques.</p>
+    </div>
+
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {% for langue in langues %}
+        <div class="bg-white overflow-hidden shadow-lg rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-gray-900">{{ langue.nom }}</h2>
+                    <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-semibold">
+                        {{ langue.code }}
+                    </span>
+                </div>
+                <div class="mt-4 flex justify-between text-sm text-gray-600">
+                    <span>Éléments culturels : {{ langue.elements_culturels.count }}</span>
+                    <span>Mots : {{ langue.mots.count }}</span>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+                <a href="{% url 'element_culturel_list' langue.id %}" class="block text-center text-white font-semibold hover:text-indigo-100 transition duration-150 ease-in-out">
+                    Explorer la culture
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">Aucune langue disponible</h3>
+                <p class="mt-1 text-sm text-gray-500">Commencez par ajouter une nouvelle langue pour explorer les cultures.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated and user.is_superuser %}
+    <div class="mt-12 text-center">
+        <a href="{% url 'langue_create' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <svg class="-ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Ajouter une nouvelle langue
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

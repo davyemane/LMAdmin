@@ -7,28 +7,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% tailwind_css %}
+    <style>
+        .bg-lm-green {
+            background-color: #5EE4A1;
+        }
+        .text-lm-blue {
+            color: #4A90E2;
+        }
+        .bg-lm-blue {
+            background-color: #4A90E2;
+        }
+        body {
+            font-family: 'Ubuntu', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-    <header class="bg-green-600 text-white p-4">
+<body class="bg-gray-100 leading-normal tracking-normal">
+    <header class="bg-lm-green text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Apprentissage des langues maternelles</h1>
-            <nav>
-                <a href="{% url 'dashboard_dictionnaire' %}" class="text-white hover:text-yellow-200 mr-4">Dashboard Dictionnaire</a>
-                <!-- Ajoutez d'autres liens de navigation ici -->
-            </nav>
+            <div class="flex items-center">
+                <img src="{% static 'images/LogoLM.png' %}" alt="Logo" class="h-10 w-auto mr-3">
+                <h1 class="text-2xl font-bold">LM Africa</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="search" placeholder="Rechercher" class="py-2 px-4 pr-10 rounded-full bg-white bg-opacity-20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white">
+                    <svg class="absolute right-3 top-2.5 h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <nav>
+                    <a href="{% url 'dashboard_dictionnaire' %}" class="text-white hover:text-yellow-200">Dashboard Dictionnaire</a>
+                    <!-- Ajoutez d'autres liens de navigation ici -->
+                </nav>
+                <div class="flex items-center">
+                    <img src="{% static 'images/user-avatar.jpg' %}" alt="Profil" class="h-8 w-8 rounded-full mr-2">
+                    <span class="text-white">Nom d'utilisateur</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto mt-8">
+    <main class="container mx-auto mt-8 p-4">
         {% block content %}
         <!-- Le contenu spécifique à chaque page sera inséré ici -->
         {% endblock %}
     </main>
 
-    <footer class="bg-green-600 text-white p-4 mt-8">
+    <footer class="bg-lm-green text-white p-4 mt-8">
         <div class="container mx-auto text-center">
-            <p>&copy; 2024 Apprentissage des langues maternelles. Tous droits réservés.</p>
+            <p>&copy; {% now "Y" %} LM Africa - Toutes les cultures, toutes les langues</p>
         </div>
     </footer>
 </body>

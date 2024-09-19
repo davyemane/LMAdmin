@@ -35,6 +35,7 @@ TAILWIND_APP_NAME = 'theme'
 INSTALLED_APPS = [
     'authentication',
     'dictionnaire',
+    'culture',
 
     'tailwind',
     'theme',

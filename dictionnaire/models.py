@@ -10,12 +10,13 @@ class Langue(models.Model):
 
 class Mot(models.Model):
     mot = models.CharField(max_length=255)
-    langue = models.ForeignKey('Langue', on_delete=models.CASCADE)
+    langue = models.ForeignKey('Langue', on_delete=models.CASCADE, related_name='mots')
     prononciation_audio = models.FileField(upload_to='pronunciations/', null=True, blank=True)
     image_illustrative = models.ImageField(upload_to='mot_images/', null=True, blank=True)
 
     def __str__(self):
         return f"{self.mot} ({self.langue.code})"
+
 
 class Traduction(models.Model):
     mot_source = models.ForeignKey(Mot, on_delete=models.CASCADE, related_name='traductions_source')

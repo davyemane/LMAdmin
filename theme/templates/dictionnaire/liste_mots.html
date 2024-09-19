@@ -6,7 +6,7 @@
     <!-- Left Sidebar -->
     <div class="w-full lg:w-1/6 bg-white shadow-md lg:h-screen overflow-y-auto">
         <div class="p-4">
-            <img src="{% static 'images/logo.jpg' %}" alt="Logo du projet" class="w-16 mb-6">
+            <img src="{% static 'images/LogoLM.png' %}" alt="Logo du projet" class="w-16 mb-6">
             <nav>
                 <ul class="space-y-2">
                     <li><a href="#" class="flex items-center text-gray-700 hover:text-green-500">
@@ -60,7 +60,7 @@
         </header>
 
 
- <!-- Main area -->
+        <!-- Main area -->
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 lg:p-6">
             <div class="bg-white rounded-lg shadow p-4 lg:p-6 mb-6">
                 <h2 class="text-xl font-semibold mb-4 flex items-center">
@@ -76,13 +76,10 @@
                         <input type="text" id="searchInput" placeholder="Rechercher un mot..." class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
                         <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-
-                     <!-- Add the toggle button for the AGLC keyboard -->
-                        <button id="toggleKeyboard" class="bg-blue-500 text-white px-4 py-2 rounded">
-                            Afficher/Masquer le clavier AGLC
-                        </button>
-                        <div id="aglcKeyboard" style="display: none;"></div>
-                </div>
+<button id="toggleKeyboard" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+    Afficher/Masquer le clavier AGLC
+</button>
+<div id="aglcKeyboard" style="display: none;"></div>                </div>
                 <!-- Alphabet filter -->
                 <div class="flex flex-wrap mb-4 bg-white shadow rounded-lg p-2">
                     {% for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' %}
@@ -120,7 +117,7 @@
         </main>
     </div>
 
-    <!-- Right sidebar for statistics -->
+<!-- Right sidebar for statistics -->
     <div class="w-full lg:w-1/4 bg-white p-4 lg:p-6 overflow-y-auto">
         <div class="mb-6">
             <h3 class="text-lg font-semibold mb-4">Statistiques du Dictionnaire</h3>
@@ -157,7 +154,7 @@
             <!-- Add your statistics chart here -->
         </div>
     </div>
-</div>
+</div></div>
 
 <!-- Word details popup -->
 <div id="wordDetailsPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
@@ -202,98 +199,7 @@
         max-height: 300px;
     }
 </style>
-<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-<script >
-document.addEventListener('DOMContentLoaded', function() {
-    const wordList = document.getElementById('wordList');
-    const searchInput = document.getElementById('searchInput');
-    const alphabetFilters = document.querySelectorAll('.alphabet-filter');
-    const wordItems = document.querySelectorAll('.word-item');
-    const wordDetailsButtons = document.querySelectorAll('.word-details');
-    const popup = document.getElementById('wordDetailsPopup');
-    const closePopup = document.getElementById('closePopup');
 
-    // Search functionality
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        wordItems.forEach(item => {
-            const word = item.dataset.word;
-            item.style.display = word.includes(searchTerm) ? '' : 'none';
-        });
-    });
-
-    // Alphabet filter functionality
-    alphabetFilters.forEach(filter => {
-        filter.addEventListener('click', function() {
-            const letter = this.textContent.toLowerCase();
-            wordItems.forEach(item => {
-                const word = item.dataset.word;
-                item.style.display = word.startsWith(letter) ? '' : 'none';
-            });
-        });
-    });
-
-    // Word details popup
-    wordDetailsButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const wordId = this.dataset.wordId;
-            // Here you would typically fetch the word details from the server
-            // For this example, we'll use placeholder data
-            document.getElementById('popupWord').textContent = 'Example Word';
-            document.getElementById('popupTranslation').textContent = 'Example Translation';
-            document.getElementById('popupImage').src = '/path/to/image.jpg';
-            document.getElementById('popupAudio').src = '/path/to/audio.mp3';
-            popup.classList.remove('hidden');
-        });
-    });
-
-    closePopup.addEventListener('click', function() {
-        popup.classList.add('hidden');
-    });
-});
-
-
-
-</script>
-
-<script >
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-
-    if (searchInput) {
-        searchInput.addEventListener('input',  
- function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const wordItems = document.querySelectorAll('.grid > div'); // Selector amélioré
-
-            wordItems.forEach((item) => {
-                const wordText = item.querySelector('.font-semibold').textContent.toLowerCase();
-                const languageCode = item.querySelector('.text-sm.text-gray-500').textContent.toLowerCase();
-
-                // Gestion des erreurs
-                if (!wordText || !languageCode) {
-                    console.error('Word text or language code not found in item:', item);
-                    return;
-                }
-
-                const isMatch = wordText.includes(searchTerm) || languageCode.includes(searchTerm);
-                item.style.display = isMatch ? '' : 'none';
-
-                // Feedback visuel (optionnel)
-                // ...
-            });
-
-            // Afficher le nombre de résultats (optionnel)
-            // ...
-        });
-    } else {
-        console.error('Search input not found!');
-    }
-});
-
-</script>
+<!-- Chargement du JavaScript -->
+<script src="{% static 'js/dictionary.js' %}"></script>
 {% endblock %}
