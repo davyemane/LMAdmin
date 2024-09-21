@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Tableau de bord du Dictionnaire{% endblock %}
+
+
+{% block extra_css %}
+
+{% endblock %}
+
 {% block content %}
 <div class="bg-gray-100 min-h-screen p-8">
     <div class="container mx-auto">
@@ -49,23 +55,44 @@
             </div>
 
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="p-6 bg-purple-500">
+                <div class="p-6 bg-red-500">
                     <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
                 </div>
                 <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">Actions rapides</div>
-                    <div class="mt-4 space-y-2">
-                        <a href="{% url 'ajouter_mot' %}" class="block text-purple-500 hover:text-purple-700">Ajouter un mot</a>
-                        <a href="{% url 'ajouter_traduction' %}" class="block text-purple-500 hover:text-purple-700">Ajouter une traduction</a>
-                        <a href="{% url 'liste_mots' %}" class="block text-purple-500 hover:text-purple-700">Voir tous les mots</a>
-                    </div>
+                    <div class="font-bold text-xl mb-2">Importation Excel</div>
+                    <a href="{% url 'importer_mots' %}" class="block mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                        Importer des mots
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="px-6 py-4">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Mots vs Traductions</h2>
+                    <canvas id="wordsVsTranslationsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="px-6 py-4">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Traductions par Langue</h2>
+                    <canvas id="translationsPerLanguageChart"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="px-6 py-4">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Répartition des Types de Mots</h2>
+                    <canvas id="wordTypesChart"></canvas>
+                </div>
+            </div>
+
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <div class="px-6 py-4">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
@@ -89,20 +116,19 @@
                     </ul>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="px-6 py-4">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                        <svg class="h-6 w-6 text-lm-green mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Statistiques
-                    </h2>
-                    <!-- Ici, vous pouvez ajouter un graphique ou des statistiques supplémentaires -->
-                    <p class="text-gray-600">Graphique à venir...</p>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var globalData = {
+    motsParMois: {{ mots_par_mois|safe }},
+    traductionsParMois: {{ traductions_par_mois|safe }},
+    traductionsParLangue: {{ traductions_par_langue|safe }},
+    typesDeMots: {{ types_de_mots|safe }}
+};
+</script>
+<script src="{% static 'js/dashboard_dict.js' %}"></script>
 {% endblock %}
+
